@@ -47,6 +47,8 @@ PII_FIELDS = (
     "ssn",
     "password"
 )
+
+
 def get_logger() -> logging.Logger:
     """
     returns a logging.Logger object
