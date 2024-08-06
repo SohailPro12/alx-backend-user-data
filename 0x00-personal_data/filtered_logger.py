@@ -5,6 +5,9 @@ filter function
 import re
 from typing import List
 import logging
+import os
+import mysql
+import mysql.connector
 
 
 class RedactingFormatter(logging.Formatter):
@@ -66,3 +69,15 @@ def get_logger() -> logging.Logger:
     # Add the console handler to the logger
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    """
+    returns a connector to the database
+    """
+    user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
+    db_name = os.getenv('PERSONAL_DATA_DB_NAME')
+    return mysql.connector.connect(user=user, password=password,
+                                   host=host, database=db_name)
