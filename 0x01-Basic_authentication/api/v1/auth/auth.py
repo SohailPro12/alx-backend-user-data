@@ -14,7 +14,11 @@ class Auth:
         """
         checks if path require auth
         """
-        return False
+        if path is None or excluded_paths is None or excluded_paths == []:
+            return True
+        normalpath = path.rstrip('/')
+        ispre = any(normalpath == item.rstrip('/') for item in excluded_paths)
+        return not ispre
 
     def authorization_header(self, request=None) -> str:
         """
