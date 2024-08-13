@@ -35,36 +35,16 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str) -> User:
+        """Add a new user to the database and return the User object
         """
-        save the user to the database
-        """
-        user = User(email=email, hashed_password=hashed_password)
-        try:
-            self._session.add(user)
-            self._session.commit()
-        except Exception as e:
-            print(f"Error adding user to database: {e}")
-            # print(f"The new user was not added because: {e}")
-            self._session.rollback()
-            raise
-        return user
+        # Create a new User instance
+        new_user = User(email=email, hashed_password=hashed_password)
 
-    def find_user_by(self, **kwargs: Dict[str, str]) -> User:
-        """
-        find a  user in the database by different attr
+        # Add the user to the current session
+        self._session.add(new_user)
 
-        Raises:
-            error: NoResultFound: When no results are found.
-            error: InvalidRequestError: When invalid query arguments are passed
+        # Commit the session to save the user to the database
+        self._session.commit()
 
-        Returns:
-            User: First row found in the `users` table.
-        """
-        session = self._session
-        try:
-            user = session.query(User).filter_by(**kwargs).one()
-        except NoResultFound:
-            raise NoResultFound()
-        except InvalidRequestError:
-            raise InvalidRequestError()
-        return user
+        # Return the newly created User object
+        return new_user
