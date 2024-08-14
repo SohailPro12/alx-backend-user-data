@@ -37,7 +37,7 @@ class Auth:
             if user is not None:
                 test_password = _hash_password(password)
                 hashed_password = user.hashed_password
-                if bcrypt.checkpw(password_bytes, hashed_password):
+                if bcrypt.checkpw(test_password, hashed_password):
                     return True
         except NoResultFound:
             return False
