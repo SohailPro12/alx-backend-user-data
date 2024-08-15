@@ -3,6 +3,7 @@
 Auth process module
 """
 import bcrypt
+from uuid import uuid4
 from sqlalchemy.orm.exc import NoResultFound
 from user import User
 from db import DB
@@ -53,3 +54,8 @@ def _hash_password(password: str) -> bytes:
     hashed with bcrypt.hashpw
     """
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+def _generate_uuid() -> str:
+    """Generates a uuid.
+    """
+    return str(uuid4())
